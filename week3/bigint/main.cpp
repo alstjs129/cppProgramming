@@ -76,7 +76,7 @@ int main() {
     cin >> num2;
 
     cout <<"Sum           >> " << add(num1, num2) << endl;
-    cout <<"Sub           >> " << sub(num1, num2);
+    cout <<"Sub           >> " << sub(num1, num2) << endl;
 
     return 0;
 }
