@@ -65,5 +65,6 @@ int main() {
             break;
         }
     }
+    int a = 3;
     return 0;
 }

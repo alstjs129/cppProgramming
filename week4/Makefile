@@ -12,5 +12,5 @@ database.o: database.cpp database.h
 	g++ ${FLAGS} -c database.cpp
 
 clean:
-	del *.o
-	del main.exe
+	rm *.o
+	rm main.exe
