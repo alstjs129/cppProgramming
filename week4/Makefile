@@ -1,3 +1,5 @@
+# Makefile (mingw32-make)
+
 FLAGS = -Werror
 
 main.exe: main.o database.o database.h
