@@ -4,11 +4,31 @@
 
 using namespace std;
 
-string cmd, key, inputType;
+string cmd, key, inputType, getKey;
 int intValue;
 double doubleValue;
 string stringValue;
 Type type;
+
+void cmdList(Database &db) {
+    for (int i = 0; i < db.size; ++i) {
+        cout << db.entries[i] -> key << ": ";
+        switch (db.entries[i] -> type) {
+        case INT:
+            cout << *(static_cast<int*>(db.entries[i] -> value));
+            break;
+        case DOUBLE:
+            cout << *(static_cast<double*>(db.entries[i] -> value));
+            break;
+        case STRING:
+            cout << "\"" << *(static_cast<string*>(db.entries[i] -> value)) << "\"";
+            break;
+        case ARRAY:
+            break;
+        }
+        cout << endl;
+    }
+}
 
 void cmdAddInput() {
     cout << "key: ";
@@ -55,11 +75,11 @@ void cmdAdd(Database &db) {
 
 void cmdGet(Database &db) {
     cout << "key: ";
-    cin >> key;
+    cin >> getKey;
 
-    Entry *getEntry = get(db, key);
+    Entry *getEntry = get(db, getKey);
     if (getEntry != nullptr) {
-        switch (type) {
+        switch (getEntry -> type) {
         case INT:
             cout << getEntry -> key << ": " << *(static_cast<int*>(getEntry->value));
             break;
@@ -87,7 +107,7 @@ int main() {
         cin >> cmd;
 
         if (cmd == "list") {
-
+            cmdList(db);
         } else if (cmd == "add") {
             cmdAdd(db);
         } else if (cmd == "get") {
@@ -97,7 +117,7 @@ int main() {
         } else if (cmd == "exit") {
             break;
         } else {
-            cout << "[ERROR] undefined command ";
+            cout << "[ERROR] undefined command" << endl;
             break;
         }
         cout << endl;
