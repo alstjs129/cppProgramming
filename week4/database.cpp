@@ -4,10 +4,8 @@
 
 using namespace std;
 
-// 엔트리를 생성한다.
 Entry *create(Type type, std::string key, void *value) {
     Entry *newEntry = new Entry;
-
     newEntry -> type = type;
     newEntry -> key = key;
     newEntry -> value = value;
@@ -15,7 +13,43 @@ Entry *create(Type type, std::string key, void *value) {
     return newEntry;
 }
 
-void add(Database &database, Entry *entry) {
-    string key = entry -> key;
+void init(Database &database) {
+    database.entries = nullptr;
+    database.size = 0;
+    database.capacity = 0;
+}
 
+void add(Database &database, Entry *entry) {
+    if (database.size >= database.capacity) {
+        int newCapacity = (database.capacity == 0) ? 1 : database.capacity * 2;
+        Entry **temp = new Entry*[newCapacity];
+        
+        for (int i = 0; i < database.size; ++i) {
+            temp[i] = database.entries[i];
+        }
+        
+        delete[] database.entries;
+    
+        database.entries = temp;
+        database.capacity = newCapacity;
+    }
+    
+    database.entries[database.size++] = entry;
+}
+
+Entry *get(Database &database, std::string &key) {
+    for (int i = 0; i < database.size; ++i) {
+        if (database.entries[i]->key == key) {
+            return database.entries[i];
+        }
+    }
+    return nullptr;
+}
+
+void destroy(Database &database) {
+    for (int i = 0; i < database.size; ++i) {
+        delete database.entries[i];
+    }
+    
+    delete[] database.entries;
 }

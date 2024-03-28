@@ -23,38 +23,39 @@ void cmdAddInput() {
     cin >> value;
 }
 
-void cmdAdd() {
-    Entry *entry;
-    Database myDatabase;
-    
+void cmdAdd(Database &db) {
     cmdAddInput();
-    entry = create(type, key, &value);
-    
-    add(myDatabase, entry);
+    // add(db, create(INT, "key1", new int(42)));
+    add(db, create(type, key, new int(stoi(value))));
+}
+
+void cmdGet(Database &db) {
+    cout << "key: ";
+    cin >> key;
+
+    Entry *getEntry = get(db, key);
+    if (getEntry != nullptr) {
+        cout << getEntry -> key << ": " << *(static_cast<int*>(getEntry->value));
+    }
+    cout << "\n";
 }
 
 int main() {
-    
-    // Entry *entry;
-    // entry = create(type, key, &value);
-    // entry->type = static_cast<Type>(inputTypeINT);
 
-    // Database myDatabase;
-    // add(myDatabase, entry);
-
-    // cout << entry->key << "\n" << entry->type << "\n" << entry->value << "\n";
+    Database db;
+    init(db);
 
     while(1) {
-    
+        
         cout << "command (list, add, get, del, exit): ";
         cin >> cmd;
 
         if (cmd == "list") {
 
         } else if (cmd == "add") {
-            cmdAdd();
+            cmdAdd(db);
         } else if (cmd == "get") {
-
+            cmdGet(db);
         } else if (cmd == "del") {
             
         } else if (cmd == "exit") {
@@ -64,6 +65,8 @@ int main() {
             break;
         }
     }
-    
+
+    destroy(db);
+    cout << "destroy (db)" << endl;
     return 0;
 }
