@@ -5,7 +5,6 @@
 using namespace std;
 
 string cmd, key, inputType, value;
-int inputTypeINT;
 Type type;
 
 void cmdAddInput() {
@@ -65,6 +64,6 @@ int main() {
             break;
         }
     }
-    int a = 3;
+    
     return 0;
 }
