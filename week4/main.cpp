@@ -1,9 +1,13 @@
 #include <iostream>
+#include <string>
 #include "database.h"
 
 using namespace std;
 
-string cmd, key, inputType, value;
+string cmd, key, inputType;
+int intValue;
+double doubleValue;
+string stringValue;
 Type type;
 
 void cmdAddInput() {
@@ -13,19 +17,40 @@ void cmdAddInput() {
     cout << "type (int, double, string, array): ";
     cin >> inputType;
 
-    if (inputType == "int") type=INT;
-    else if(inputType == "double") type=DOUBLE;
-    else if(inputType == "string") type=STRING;
-    else type=ARRAY;
-
     cout << "value: ";
-    cin >> value;
+    if (inputType == "int") {
+        type=INT;
+        cin >> intValue;
+    }
+    else if(inputType == "double") {
+        type=DOUBLE;
+        cin >> doubleValue;
+    }
+    else if(inputType == "string") {
+        type=STRING;
+        getline(cin >> ws, stringValue);
+    }
+    else {
+        type=ARRAY;
+    }
 }
 
 void cmdAdd(Database &db) {
     cmdAddInput();
-    // add(db, create(INT, "key1", new int(42)));
-    add(db, create(type, key, new int(stoi(value))));
+
+    switch (type) {
+        case INT:
+            add(db, create(type, key, new int(intValue)));
+            break;
+        case DOUBLE:
+            add(db, create(type, key, new double(doubleValue)));
+            break;
+        case STRING:
+            add(db, create(type, key, new string(stringValue)));
+            break;
+        case ARRAY:
+            break;
+    }
 }
 
 void cmdGet(Database &db) {
@@ -34,9 +59,21 @@ void cmdGet(Database &db) {
 
     Entry *getEntry = get(db, key);
     if (getEntry != nullptr) {
-        cout << getEntry -> key << ": " << *(static_cast<int*>(getEntry->value));
+        switch (type) {
+        case INT:
+            cout << getEntry -> key << ": " << *(static_cast<int*>(getEntry->value));
+            break;
+        case DOUBLE:
+            cout << getEntry -> key << ": " << *(static_cast<double*>(getEntry->value));
+            break;
+        case STRING:
+            cout << getEntry -> key << ": \"" << *(static_cast<string*>(getEntry->value)) << "\"";
+            break;
+        case ARRAY:
+            break;
+        }
     }
-    cout << "\n";
+    cout << endl;
 }
 
 int main() {
@@ -63,9 +100,10 @@ int main() {
             cout << "[ERROR] undefined command ";
             break;
         }
+        cout << endl;
     }
 
     destroy(db);
-    cout << "destroy (db)" << endl;
+    cout << "[END] destroy (db)" << endl;
     return 0;
 }
