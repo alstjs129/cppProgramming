@@ -4,7 +4,7 @@
 
 using namespace std;
 
-string cmd, key, inputType, getKey;
+string cmd, key, inputType;
 int intValue;
 double doubleValue;
 string stringValue;
@@ -75,9 +75,9 @@ void cmdAdd(Database &db) {
 
 void cmdGet(Database &db) {
     cout << "key: ";
-    cin >> getKey;
+    cin >> key;
 
-    Entry *getEntry = get(db, getKey);
+    Entry *getEntry = get(db, key);
     if (getEntry != nullptr) {
         switch (getEntry -> type) {
         case INT:
@@ -94,6 +94,13 @@ void cmdGet(Database &db) {
         }
     }
     cout << endl;
+}
+
+void cmdDel(Database &db) {
+    cout << "key: ";
+    cin >> key;
+
+    remove(db, key);
 }
 
 int main() {
@@ -113,7 +120,7 @@ int main() {
         } else if (cmd == "get") {
             cmdGet(db);
         } else if (cmd == "del") {
-            
+            cmdDel(db);
         } else if (cmd == "exit") {
             break;
         } else {

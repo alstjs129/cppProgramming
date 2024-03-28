@@ -45,6 +45,21 @@ Entry *get(Database &database, std::string &key) {
     return nullptr;
 }
 
+void remove(Database &database, std::string &key) {
+    for (int i = 0; i < database.size; ++i) {
+        if (database.entries[i]->key == key) {
+            
+            delete database.entries[i];
+            
+            for (int j = i; j < database.size - 1; ++j) {
+                database.entries[j] = database.entries[j + 1];
+            }
+            database.size--;
+            return;
+        }
+    }
+}
+
 void destroy(Database &database) {
     for (int i = 0; i < database.size; ++i) {
         delete database.entries[i];
