@@ -52,6 +52,22 @@ void cmdAddInput() {
     }
     else {
         type=ARRAY;
+        string arrayType;
+        int arraySize;
+
+        cout << "value: type (int, double, string, array): ";
+        cin >> arrayType;
+
+        cout << "size: ";
+        cin >> arraySize;
+
+        if (arrayType == "int") {
+            int intArray[arraySize];
+            for (int i = 0; i < arraySize; ++i) {
+                cout << "item[" << i << "]: ";
+                cin >> intArray[i];
+            }
+        }
     }
 }
 
@@ -69,6 +85,7 @@ void cmdAdd(Database &db) {
             add(db, create(type, key, new string(stringValue)));
             break;
         case ARRAY:
+
             break;
     }
 }
