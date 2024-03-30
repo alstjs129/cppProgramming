@@ -32,7 +32,7 @@ string sub(string num1, string num2) {
     string result;
 
     int sign = 0;
-    if (num1.compare(num2) == -1) {
+    if (num1.compare(num2) == 1) {
         swap(num1, num2);
         sign = 1;
     } else if (num1.compare(num2) == 0) return "0";
